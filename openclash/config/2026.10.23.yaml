@@ -1,0 +1,820 @@
+proxy-providers:
+  Nexitally:
+    type: http
+    url: "机场订阅链接"
+    path: ./proxy_provider/Nexitally.yaml
+    interval: 86400
+    proxy: DIRECT
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    exclude-filter: &ex_filter "(?i)(Expire|Traffic|Reset|GB|G\\s*\\||套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|群|频道|139\\.199\\.\\d+\\.\\d+|超时|异常|0ms|低质量|坏节点|Premium|高倍率|[2-9]\\d*x)"
+
+  WgetCloud:
+    type: http
+    url: "机场订阅链接"
+    path: ./proxy_provider/WgetCloud.yaml
+    interval: 86400
+    proxy: DIRECT
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    exclude-filter: *ex_filter
+
+port: 7890
+socks-port: 7891
+redir-port: 7892
+mixed-port: 7893
+tproxy-port: 7895
+allow-lan: true
+bind-address: '*'
+mode: rule
+ipv6: false
+unified-delay: true
+tcp-concurrent: true
+tfo: true
+find-process-mode: 'off'
+log-level: error
+disable-keep-alive: false
+keep-alive-idle: 60
+keep-alive-interval: 15
+
+external-controller: 0.0.0.0:9090
+secret: "HC4Z8Bcux69HzeZzcA6t"
+
+lgbm-auto-update: true
+lgbm-update-interval: 168
+lgbm-url: https://github.com/vernesong/mihomo/releases/download/LightGBM-Model/Model-large.bin
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+  smart-collector-size: 100
+
+external-ui: "/usr/share/openclash/ui"
+external-ui-name: zashboard
+external-ui-url: "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+
+geodata-mode: false
+geodata-loader: standard
+geo-auto-update: true
+geo-update-interval: 168
+geox-url:
+  geoip: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat
+  geosite: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat
+  mmdb: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb
+  asn: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/GeoLite2-ASN.mmdb
+
+hosts:
+  dns.google:
+    - 8.8.8.8
+    - 8.8.4.4
+  cloudflare-dns.com:
+    - 1.1.1.1
+    - 1.0.0.1
+  dns.alidns.com:
+    - 223.5.5.5
+    - 223.6.6.6
+  doh.pub:
+    - 1.12.12.12
+    - 120.53.53.53
+  openwrt.lan: lan
+  immortalwrt.lan: lan
+  lede.lan: lan
+  router.lan: lan
+  OpenWrt.lan: lan
+
+ntp:
+  enable: true
+  write-to-system: true
+  server: time1.cloud.tencent.com
+  port: 123
+  interval: 30
+
+tun:
+  enable: true
+  stack: mixed
+  device: utun
+  mtu: 1500
+  gso: true
+  gso-max-size: 65536
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+  endpoint-independent-nat: true
+  auto-route: false
+  auto-detect-interface: false
+  auto-redirect: false
+  strict-route: false
+  disable-icmp-forwarding: false
+
+sniffer:
+  enable: true
+  override-destination: false
+  force-dns-mapping: true
+  parse-pure-ip: true
+  sniff:
+    QUIC:
+      ports:
+        - 443
+        - 8443
+    TLS:
+      ports:
+        - 443
+        - 8443
+    HTTP:
+      ports:
+        - 80
+        - 8080-8880
+      override-destination: false
+  force-domain:
+    - +.netflix.com
+    - +.nflxvideo.net
+    - +.amazonaws.com
+    - +.media.dssott.com
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.io.mi.com"
+    - "dlg.io.mi.com"
+    - "+.oray.com"
+    - "+.sunlogin.net"
+    - "+.push.apple.com"
+
+dns:
+  enable: true
+  listen: 0.0.0.0:7874
+  cache-algorithm: arc
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter-mode: blacklist
+  fake-ip-filter:
+    - rule-set:geosite-private
+    - +.steamserver.net
+    - +.cm.steampowered.com
+    - localhost
+    - '*.localhost'
+    - +.lan
+    - +.local
+    - +.localdomain
+    - +.home.arpa
+    - +.internal
+    - +.msftconnecttest.com
+    - +.msftncsi.com
+    - time.*.com
+    - time.*.gov
+    - time.*.edu.cn
+    - time.apple.com
+    - time.*.apple.com
+    - time1.cloud.tencent.com
+    - +.pool.ntp.org
+    - ntp.*.com
+    - '*.stun.*.*'
+    - '*.stun.*.*.*'
+    - lens.l.google.com
+  use-system-hosts: false
+  use-hosts: true
+  prefer-h3: false
+  respect-rules: true
+  disable-q-type65: true
+  fast-reverse-lookup: false
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query#DIRECT
+    - https://doh.pub/dns-query#DIRECT
+    - 223.5.5.5
+    - 119.29.29.29
+  direct-nameserver:
+    - https://dns.alidns.com/dns-query#DIRECT
+    - https://doh.pub/dns-query#DIRECT
+  direct-nameserver-follow-policy: true
+  nameserver-policy:
+    "rule-set:geosite-cn,geosite-private,geosite-apple-cn,geosite-microsoft-cn,geosite-steam-cn":
+      - https://dns.alidns.com/dns-query#DIRECT
+      - https://doh.pub/dns-query#DIRECT
+    +.cn:
+      - https://dns.alidns.com/dns-query#DIRECT
+      - https://doh.pub/dns-query#DIRECT
+  nameserver:
+    - https://dns.google/dns-query#故障转移
+    - https://cloudflare-dns.com/dns-query#故障转移
+
+experimental:
+  ignore-resolve-fail: true
+  quic-go-disable-gso: true
+
+proxy-groups:
+  - name: 默认选择
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Static.png
+    type: select
+    proxies:
+      - 智能优选
+      - 故障转移
+      - Nex-香港智能
+      - Nex-台湾智能
+      - Nex-日本智能
+      - Nex-狮城智能
+      - Nex-美国智能
+      - Nex-韩国智能
+      - Wget-香港智能
+      - Wget-台湾智能
+      - Wget-日本智能
+      - Wget-狮城智能
+      - Wget-美国智能
+      - Wget-韩国智能
+      - Manual-香港手动
+      - Manual-台湾手动
+      - Manual-日本手动
+      - Manual-狮城手动
+      - Manual-美国手动
+      - Manual-韩国手动
+
+  - name: 故障转移
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Fault-1.png
+    type: fallback
+    interval: 180
+    lazy: true
+    url: https://www.gstatic.com/generate_204
+    proxies:
+      - 智能优选
+      - Wget-香港智能
+      - Nex-香港智能
+      - Wget-台湾智能
+      - Nex-台湾智能
+      - Wget-日本智能
+      - Nex-日本智能
+      - Wget-狮城智能
+      - Nex-狮城智能
+      - Wget-美国智能
+      - Nex-美国智能
+      - Wget-韩国智能
+      - Nex-韩国智能
+      - Manual-香港手动
+      - Manual-台湾手动
+      - Manual-日本手动
+      - Manual-狮城手动
+      - Manual-美国手动
+      - Manual-韩国手动
+
+  - name: 国内流量
+    icon: https://raw.githubusercontent.com/SoxMoox/Picture/refs/heads/main/Icon/Png/512px/Panda-512px-0.png
+    type: select
+    proxies:
+      - DIRECT
+      - 默认选择
+
+  - name: Anthropic
+    icon: https://raw.githubusercontent.com/SoxMoox/Picture/refs/heads/main/Icon/Png/512px/Anthropic.png
+    type: select
+    proxies: &proxy-choices
+      - 默认选择
+      - 故障转移
+      - 智能优选
+      - Nex-香港智能
+      - Nex-台湾智能
+      - Nex-日本智能
+      - Nex-狮城智能
+      - Nex-美国智能
+      - Nex-韩国智能
+      - Wget-香港智能
+      - Wget-台湾智能
+      - Wget-日本智能
+      - Wget-狮城智能
+      - Wget-美国智能
+      - Wget-韩国智能
+      - Manual-香港手动
+      - Manual-台湾手动
+      - Manual-日本手动
+      - Manual-狮城手动
+      - Manual-美国手动
+      - Manual-韩国手动
+      - DIRECT
+
+  - name: Gemini
+    icon: https://raw.githubusercontent.com/SoxMoox/Picture/refs/heads/main/Icon/Png/512px/Gemini-512px-2.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: OpenAi
+    icon: https://raw.githubusercontent.com/SoxMoox/Picture/refs/heads/main/Icon/Png/512px/Chatgpt-512px-0.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Apple
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Apple-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: GitHub
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Github-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Google
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Google-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: GoogleFCM
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Gmail-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Microsoft
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Microsoft-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Pixiv
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Pixiv-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: EHentai
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/EHentai-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: PayPal
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/PayPal-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Samsung
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Samsung-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Steam
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Steam-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Twitter
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Twitter-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Telegram
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Telegram-2.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: TikTok
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/TikTok-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: YouTube
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/YouTube-1.png
+    type: select
+    proxies: *proxy-choices
+
+  - name: Tube
+    icon: https://raw.githubusercontent.com/SoxMoox/Picture/refs/heads/main/Icon/Png/512px/18-512px-0.png
+    type: select
+    proxies: *proxy-choices
+
+  # 双机场全部节点合并智能优选组（显式挂载 exclude-filter 拦截已缓存的假节点）
+  - name: 智能优选
+    <<: &smart-base
+      type: smart
+      uselightgbm: true
+      collectdata: true
+      lazy: true
+      exclude-type: direct
+      interval: 300
+      url: https://www.gstatic.com/generate_204
+      exclude-filter: *ex_filter
+    icon: https://raw.githubusercontent.com/SoxMoox/Picture/refs/heads/main/Icon/Png/512px/All-512px-2.png
+    use:
+      - Nexitally
+      - WgetCloud
+
+  - name: Nex-香港智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/HongKong-1.png
+    use:
+      - Nexitally
+    filter: (?i)(港|HK|HongKong|hong)
+
+  - name: Nex-台湾智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/TaiWan-1.png
+    use:
+      - Nexitally
+    filter: (?i)(台|TW|TaiWan)
+
+  - name: Nex-日本智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Japan-1.png
+    use:
+      - Nexitally
+    filter: (?i)^(?=.*(JP|Japan|日))(?!.*(尼)).*$
+
+  - name: Nex-狮城智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Singapore-1.png
+    use:
+      - Nexitally
+    filter: (?i)(新加坡|SG|Singapore)
+
+  - name: Nex-美国智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/America-1.png
+    use:
+      - Nexitally
+    filter: (?i)(美|USA|America|States|\bUS\b|US-)
+    exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Russia|Austria|Australia|俄|奥|澳|Premium|高倍率|[2-9]\\d*x)"
+
+  - name: Nex-韩国智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Korea-1.png
+    use:
+      - Nexitally
+    filter: (?i)(韩|Korea|\bKR\b|KR-)
+    exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Ukraine|乌克兰|Premium|高倍率|[2-9]\\d*x)"
+
+  - name: Wget-香港智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/HongKong-1.png
+    use:
+      - WgetCloud
+    filter: (?i)(港|HK|HongKong|hong)
+
+  - name: Wget-台湾智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/TaiWan-1.png
+    use:
+      - WgetCloud
+    filter: (?i)(台|TW|TaiWan)
+
+  - name: Wget-日本智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Japan-1.png
+    use:
+      - WgetCloud
+    filter: (?i)^(?=.*(JP|Japan|日))(?!.*(尼)).*$
+
+  - name: Wget-狮城智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Singapore-1.png
+    use:
+      - WgetCloud
+    filter: (?i)(新加坡|SG|Singapore)
+
+  - name: Wget-美国智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/America-1.png
+    use:
+      - WgetCloud
+    filter: (?i)(美|USA|America|States|\bUS\b|US-)
+    exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Russia|Austria|Australia|俄|奥|澳|Premium|高倍率|[2-9]\\d*x)"
+
+  - name: Wget-韩国智能
+    <<: *smart-base
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Korea-1.png
+    use:
+      - WgetCloud
+    filter: (?i)(韩|Korea|\bKR\b|KR-)
+    exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Ukraine|乌克兰|Premium|高倍率|[2-9]\\d*x)"
+
+  - name: Manual-香港手动
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/HongKong-1.png
+    type: select
+    use:
+      - WgetCloud
+      - Nexitally
+    filter: (?i)(港|HK|HongKong|hong)
+    exclude-filter: *ex_filter
+
+  - name: Manual-台湾手动
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/TaiWan-1.png
+    type: select
+    use:
+      - WgetCloud
+      - Nexitally
+    filter: (?i)(台|TW|TaiWan)
+    exclude-filter: *ex_filter
+
+  - name: Manual-日本手动
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Japan-1.png
+    type: select
+    use:
+      - WgetCloud
+      - Nexitally
+    filter: (?i)^(?=.*(JP|Japan|日))(?!.*(尼)).*$
+    exclude-filter: *ex_filter
+
+  - name: Manual-狮城手动
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Singapore-1.png
+    type: select
+    use:
+      - WgetCloud
+      - Nexitally
+    filter: (?i)(新加坡|SG|Singapore)
+    exclude-filter: *ex_filter
+
+  - name: Manual-美国手动
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/America-1.png
+    type: select
+    use:
+      - WgetCloud
+      - Nexitally
+    filter: (?i)(美|USA|America|States|\bUS\b|US-)
+    exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Russia|Austria|Australia|俄|奥|澳|Premium|高倍率|[2-9]\\d*x)"
+
+  - name: Manual-韩国手动
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Korea-1.png
+    type: select
+    use:
+      - WgetCloud
+      - Nexitally
+    filter: (?i)(韩|Korea|\bKR\b|KR-)
+    exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Ukraine|乌克兰|Premium|高倍率|[2-9]\\d*x)"
+
+  - name: 漏网之鱼
+    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Match-1.png
+    type: select
+    proxies: *proxy-choices
+
+rule-providers:
+  geosite-private:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/private.mrs
+    path: ./rule_provider/geosite-private.mrs
+  geoip-private:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/private.mrs
+    path: ./rule_provider/geoip-private.mrs
+  geosite-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cn.mrs
+    path: ./rule_provider/geosite-cn.mrs
+  geoip-cn:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/cn.mrs
+    path: ./rule_provider/geoip-cn.mrs
+  geosite-anthropic:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/anthropic.mrs
+    path: ./rule_provider/geosite-anthropic.mrs
+  geosite-openai:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/openai.mrs
+    path: ./rule_provider/geosite-openai.mrs
+  geosite-cloudflare:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/cloudflare.mrs
+    path: ./rule_provider/geosite-cloudflare.mrs
+  geosite-github:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/github.mrs
+    path: ./rule_provider/geosite-github.mrs
+  geosite-telegram:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/telegram.mrs
+    path: ./rule_provider/geosite-telegram.mrs
+  geoip-telegram:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/telegram.mrs
+    path: ./rule_provider/geoip-telegram.mrs
+  geosite-youtube:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/youtube.mrs
+    path: ./rule_provider/geosite-youtube.mrs
+  geosite-twitter:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/twitter.mrs
+    path: ./rule_provider/geosite-twitter.mrs
+  geoip-twitter:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/twitter.mrs
+    path: ./rule_provider/geoip-twitter.mrs
+  geosite-googlefcm:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/googlefcm.mrs
+    path: ./rule_provider/geosite-googlefcm.mrs
+  geosite-google:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/google.mrs
+    path: ./rule_provider/geosite-google.mrs
+  geoip-google:
+    type: http
+    behavior: ipcidr
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geoip/google.mrs
+    path: ./rule_provider/geoip-google.mrs
+  geosite-apple-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple-cn.mrs
+    path: ./rule_provider/geosite-apple-cn.mrs
+  geosite-apple:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/apple.mrs
+    path: ./rule_provider/geosite-apple.mrs
+  geosite-microsoft-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft@cn.mrs
+    path: ./rule_provider/geosite-microsoft-cn.mrs
+  geosite-microsoft:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/microsoft.mrs
+    path: ./rule_provider/geosite-microsoft.mrs
+  geosite-samsung:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/samsung.mrs
+    path: ./rule_provider/geosite-samsung.mrs
+  geosite-steam-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam@cn.mrs
+    path: ./rule_provider/geosite-steam-cn.mrs
+  geosite-steam:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/steam.mrs
+    path: ./rule_provider/geosite-steam.mrs
+  geosite-pixiv:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/pixiv.mrs
+    path: ./rule_provider/geosite-pixiv.mrs
+  geosite-tiktok:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/tiktok.mrs
+    path: ./rule_provider/geosite-tiktok.mrs
+  geosite-paypal:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/paypal.mrs
+    path: ./rule_provider/geosite-paypal.mrs
+  geosite-ehentai:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/ehentai.mrs
+    path: ./rule_provider/geosite-ehentai.mrs
+  geosite-gfw:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/gfw.mrs
+    path: ./rule_provider/geosite-gfw.mrs
+  geosite-geolocation-not-cn:
+    type: http
+    behavior: domain
+    format: mrs
+    interval: 86400
+    url: https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@meta/geo/geosite/geolocation-!cn.mrs
+    path: ./rule_provider/geosite-geolocation-not-cn.mrs
+
+rules:
+  - DST-PORT,123,DIRECT
+  - RULE-SET,geosite-private,DIRECT
+  - RULE-SET,geoip-private,DIRECT,no-resolve
+  - DOMAIN-SUFFIX,doh.pub,DIRECT
+  - DOMAIN-SUFFIX,alidns.com,DIRECT
+  - DOMAIN-SUFFIX,wgetcloud.online,DIRECT
+  - DOMAIN-SUFFIX,nxonearth.com,DIRECT
+  - DOMAIN-KEYWORD,nexitally,DIRECT
+  - DOMAIN-KEYWORD,zenithgrid,DIRECT
+  - DOMAIN-SUFFIX,bard.google.com,Gemini
+  - DOMAIN-SUFFIX,generativelanguage.googleapis.com,Gemini
+  - DOMAIN-SUFFIX,aistudio.google.com,Gemini
+  - DOMAIN-SUFFIX,makersuite.google.com,Gemini
+  - DOMAIN-SUFFIX,deepmind.google,Gemini
+  - DOMAIN-SUFFIX,deepmind.com,Gemini
+  - DOMAIN-KEYWORD,gemini,Gemini
+  - RULE-SET,geosite-anthropic,Anthropic
+  - RULE-SET,geosite-openai,OpenAi
+  - DOMAIN-SUFFIX,googleapis.cn,Google
+  - DOMAIN-SUFFIX,googleapis.com,Google
+  - DOMAIN-SUFFIX,xn--ngstr-l1a.com,Google
+  - DOMAIN-SUFFIX,xn--ngstr-lra8j.com,Google
+  - DOMAIN-SUFFIX,gvt1.com,Google
+  - DOMAIN-SUFFIX,gvt2.com,Google
+  - DOMAIN-SUFFIX,gvt3.com,Google
+  - RULE-SET,geosite-apple-cn,DIRECT
+  - RULE-SET,geosite-microsoft-cn,DIRECT
+  - DOMAIN-SUFFIX,steamserver.net,DIRECT
+  - DOMAIN-SUFFIX,steamcontent.com,DIRECT
+  - RULE-SET,geosite-steam-cn,DIRECT
+  - DOMAIN-SUFFIX,samsungapis.com,DIRECT
+  - DOMAIN-SUFFIX,galaxyappstore.com,DIRECT
+  - DOMAIN-SUFFIX,samsungapps.com,DIRECT
+  - DOMAIN-SUFFIX,samsungcloud.com,DIRECT
+  - DOMAIN-KEYWORD,wechat,DIRECT
+  - DOMAIN-KEYWORD,weixin,DIRECT
+  - RULE-SET,geosite-cn,DIRECT
+  - DOMAIN-SUFFIX,cn,DIRECT
+  - DOMAIN-KEYWORD,challenges,默认选择
+  - RULE-SET,geosite-cloudflare,默认选择
+  - RULE-SET,geosite-github,GitHub
+  - RULE-SET,geosite-telegram,Telegram
+  - RULE-SET,geosite-youtube,YouTube
+  - RULE-SET,geosite-twitter,Twitter
+  - RULE-SET,geosite-googlefcm,GoogleFCM
+  - RULE-SET,geosite-google,Google
+  - RULE-SET,geosite-apple,Apple
+  - RULE-SET,geosite-microsoft,Microsoft
+  - RULE-SET,geosite-samsung,Samsung
+  - RULE-SET,geosite-steam,Steam
+  - RULE-SET,geosite-pixiv,Pixiv
+  - RULE-SET,geosite-tiktok,TikTok
+  - RULE-SET,geosite-paypal,PayPal
+  - RULE-SET,geosite-ehentai,EHentai
+  - IP-ASN,59930,Telegram,no-resolve
+  - IP-ASN,42831,Telegram,no-resolve
+  - IP-ASN,62041,Telegram,no-resolve
+  - IP-ASN,62014,Telegram,no-resolve
+  - IP-ASN,211157,Telegram,no-resolve
+  - RULE-SET,geoip-telegram,Telegram,no-resolve
+  - IP-ASN,132203,DIRECT,no-resolve
+  - IP-ASN,132591,DIRECT,no-resolve
+  - IP-ASN,45090,DIRECT,no-resolve
+  - IP-ASN,55967,DIRECT,no-resolve
+  - RULE-SET,geoip-twitter,Twitter,no-resolve
+  - RULE-SET,geoip-google,Google,no-resolve
+  - RULE-SET,geosite-gfw,默认选择
+  - RULE-SET,geosite-geolocation-not-cn,默认选择
+  - RULE-SET,geoip-cn,DIRECT,no-resolve
+  - MATCH,漏网之鱼

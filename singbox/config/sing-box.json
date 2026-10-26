@@ -295,28 +295,6 @@
       ]
     },
     {
-      "tag": "EHentai",
-      "type": "selector",
-      "outbounds": [
-        "默认代理",
-        "自动选择",
-        "手动选择",
-        "香港自动",
-        "台湾自动",
-        "美国自动",
-        "日本自动",
-        "新加坡自动",
-        "韩国自动",
-        "香港手动",
-        "台湾手动",
-        "美国手动",
-        "日本手动",
-        "新加坡手动",
-        "韩国手动",
-        "直连"
-      ]
-    },
-    {
       "tag": "PayPal",
       "type": "selector",
       "outbounds": [
@@ -626,7 +604,6 @@
         "GoogleFCM",
         "Microsoft",
         "Pixiv",
-        "EHentai",
         "PayPal",
         "Samsung",
         "Steam",
@@ -819,10 +796,6 @@
         "outbound": "Pixiv"
       },
       {
-        "rule_set": "geosite-e-hentai",
-        "outbound": "EHentai"
-      },
-      {
         "rule_set": "geosite-paypal",
         "outbound": "PayPal"
       },
@@ -884,7 +857,6 @@
           "geosite-twitter",
           "geosite-tiktok",
           "geosite-pixiv",
-          "geosite-e-hentai",
           "geosite-paypal",
           "geosite-samsung",
           "geosite-category-porn",

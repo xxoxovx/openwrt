@@ -1,16 +1,4 @@
 proxy-providers:
-  Nexitally:
-    type: http
-    url: "机场订阅链接"
-    path: ./proxy_provider/Nexitally.yaml
-    interval: 86400
-    proxy: DIRECT
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-    exclude-filter: &ex_filter "(?i)(Expire|Traffic|Reset|GB|G\\s*\\||套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|群|频道|139\\.199\\.\\d+\\.\\d+|超时|异常|0ms|低质量|坏节点|Premium|高倍率|[2-9]\\d*x)"
-
   WgetCloud:
     type: http
     url: "机场订阅链接"
@@ -215,12 +203,6 @@ proxy-groups:
     proxies:
       - 智能优选
       - 故障转移
-      - Nex-香港智能
-      - Nex-台湾智能
-      - Nex-日本智能
-      - Nex-狮城智能
-      - Nex-美国智能
-      - Nex-韩国智能
       - Wget-香港智能
       - Wget-台湾智能
       - Wget-日本智能
@@ -243,17 +225,11 @@ proxy-groups:
     proxies:
       - 智能优选
       - Wget-香港智能
-      - Nex-香港智能
       - Wget-台湾智能
-      - Nex-台湾智能
       - Wget-日本智能
-      - Nex-日本智能
       - Wget-狮城智能
-      - Nex-狮城智能
       - Wget-美国智能
-      - Nex-美国智能
       - Wget-韩国智能
-      - Nex-韩国智能
       - Manual-香港手动
       - Manual-台湾手动
       - Manual-日本手动
@@ -275,12 +251,6 @@ proxy-groups:
       - 默认选择
       - 故障转移
       - 智能优选
-      - Nex-香港智能
-      - Nex-台湾智能
-      - Nex-日本智能
-      - Nex-狮城智能
-      - Nex-美国智能
-      - Nex-韩国智能
       - Wget-香港智能
       - Wget-台湾智能
       - Wget-日本智能
@@ -393,52 +363,7 @@ proxy-groups:
       exclude-filter: *ex_filter
     icon: https://raw.githubusercontent.com/SoxMoox/Picture/refs/heads/main/Icon/Png/512px/All-512px-2.png
     use:
-      - Nexitally
       - WgetCloud
-
-  - name: Nex-香港智能
-    <<: *smart-base
-    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/HongKong-1.png
-    use:
-      - Nexitally
-    filter: (?i)(港|HK|HongKong|hong)
-
-  - name: Nex-台湾智能
-    <<: *smart-base
-    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/TaiWan-1.png
-    use:
-      - Nexitally
-    filter: (?i)(台|TW|TaiWan)
-
-  - name: Nex-日本智能
-    <<: *smart-base
-    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Japan-1.png
-    use:
-      - Nexitally
-    filter: (?i)^(?=.*(JP|Japan|日))(?!.*(尼)).*$
-
-  - name: Nex-狮城智能
-    <<: *smart-base
-    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Singapore-1.png
-    use:
-      - Nexitally
-    filter: (?i)(新加坡|SG|Singapore)
-
-  - name: Nex-美国智能
-    <<: *smart-base
-    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/America-1.png
-    use:
-      - Nexitally
-    filter: (?i)(美|USA|America|States|\bUS\b|US-)
-    exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Russia|Austria|Australia|俄|奥|澳|Premium|高倍率|[2-9]\\d*x)"
-
-  - name: Nex-韩国智能
-    <<: *smart-base
-    icon: https://raw.githubusercontent.com/SoxMoox/icon/refs/heads/main/png/Korea-1.png
-    use:
-      - Nexitally
-    filter: (?i)(韩|Korea|\bKR\b|KR-)
-    exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Ukraine|乌克兰|Premium|高倍率|[2-9]\\d*x)"
 
   - name: Wget-香港智能
     <<: *smart-base
@@ -489,7 +414,6 @@ proxy-groups:
     type: select
     use:
       - WgetCloud
-      - Nexitally
     filter: (?i)(港|HK|HongKong|hong)
     exclude-filter: *ex_filter
 
@@ -498,7 +422,6 @@ proxy-groups:
     type: select
     use:
       - WgetCloud
-      - Nexitally
     filter: (?i)(台|TW|TaiWan)
     exclude-filter: *ex_filter
 
@@ -507,7 +430,6 @@ proxy-groups:
     type: select
     use:
       - WgetCloud
-      - Nexitally
     filter: (?i)^(?=.*(JP|Japan|日))(?!.*(尼)).*$
     exclude-filter: *ex_filter
 
@@ -516,7 +438,6 @@ proxy-groups:
     type: select
     use:
       - WgetCloud
-      - Nexitally
     filter: (?i)(新加坡|SG|Singapore)
     exclude-filter: *ex_filter
 
@@ -525,7 +446,6 @@ proxy-groups:
     type: select
     use:
       - WgetCloud
-      - Nexitally
     filter: (?i)(美|USA|America|States|\bUS\b|US-)
     exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Russia|Austria|Australia|俄|奥|澳|Premium|高倍率|[2-9]\\d*x)"
 
@@ -534,7 +454,6 @@ proxy-groups:
     type: select
     use:
       - WgetCloud
-      - Nexitally
     filter: (?i)(韩|Korea|\bKR\b|KR-)
     exclude-filter: "(?i)(Expire|Traffic|Reset|GB|套餐|到期|重置|剩余|流量|官网|网址|订阅|时间|获取|更新|公告|说明|Ukraine|乌克兰|Premium|高倍率|[2-9]\\d*x)"
 
